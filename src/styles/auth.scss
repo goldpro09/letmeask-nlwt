@@ -3,6 +3,14 @@
   align-items: stretch;
   height: 100vh;
 
+  img {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
   aside {
     flex: 6;
 
@@ -71,8 +79,15 @@
     > img {
       align-self: center;
       width: 80%;
+      transition: 0.5s;
+      
     }
-
+    >img:hover {
+      -webkit-transform: rotate(3deg) scale(1.05); /* Chrome, Opera 15+, Safari 3.1+ */
+      -ms-transform: rotate(3deg) scale(1.05); /* IE 9 */
+      transform: rotate(3deg) scale(1.05); /* Firefox 16+, IE 10+, Opera */
+    }
+    
     h2 {
       font-size: 24px;
       margin: 64px 0 24px;
@@ -86,6 +101,13 @@
         padding: 0 16px;
         background-color: #fff;
         border: 1px solid #a8a8b3;
+        transition: 0.5s;
+
+        &:focus {
+          border: 0.5px solid #d2d2d4;
+          border-radius: 5px;
+          transform: scale(1.02);
+        }
       }
 
       button {
@@ -101,13 +123,13 @@
       font-size: 14px;
       color: #737380;
       margin-top: 16px;
+      transition: 0.2s;
 
       a {
         text-decoration: none;
-        color: #a559f9;
-        transition: 0.2s;
+        color: #E559F9;
         &:hover {
-          text-decoration: #a559f9 underline;
+          text-decoration: #E559F9 underline;
         }
       }
     }
@@ -168,13 +190,27 @@
 
 
   .profile {
+    cursor: default;
     position: fixed;
-    right: 40px;
-    top: 0;
+    right: 10px;
+    top: 5px;
+    display: flex;
+    align-items: center;
 
     span {
-      color: #737380;
       font: 500 12pt 'Poppins', sans-serif;
+      margin: 0 10px;
+
+      transition: 0.3s;
+    }
+    
+    img {
+      width: 50px;
+      height: 50px;
+      
+      border: solid 2px;
+      border-radius: 50%;
+      padding: 1px;
     }
   }
 
