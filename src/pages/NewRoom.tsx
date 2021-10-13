@@ -32,7 +32,7 @@ export function NewRoom() {
       authorId: user?.id
     });
 
-      history.push(`/rooms/${firebaseRoom.key}`);
+      history.push(`/admin/rooms/${firebaseRoom.key}`);
   } 
 
   let url = user?.avatar as string;
@@ -66,7 +66,7 @@ export function NewRoom() {
         </div>
       </main>
       <div className="profile">
-        <span style={{color: data.muted}}>{user?.name}</span>
+        <span style={{color: data.vibrant}}>{user?.name}</span>
         <img src={user?.avatar} alt="Avatar" style={{color: data.vibrant}}/>
       </div>
     </div>

@@ -15,15 +15,15 @@ import toast, { Toaster } from "react-hot-toast";
 
 export function Home() {
   const history = useHistory();
-  const { user, singnInWithGoogle } = useAuth();
+  const { user, singInWithGoogle } = useAuth();
   const [ roomCode, setRoomCode ] = useState('');
   
   async function handleCreateRoom() {
     if(!user) {
-      await singnInWithGoogle();
+      await singInWithGoogle();
     }
     history.push('/rooms/new');
-    toast.success('Entrou com sucesso!')
+    toast.success('Entrou com sucesso!');
   }
 
   async function handleJoinRoom(event: FormEvent) {
@@ -38,6 +38,11 @@ export function Home() {
 
     if(!roomRef.exists()) {
       toast.error('Esta sala não existe!');
+      return;
+    }
+
+    if(roomRef.val().endedAt) {
+      toast.error('Esta sala já foi encerrada!')
       return;
     }
 
