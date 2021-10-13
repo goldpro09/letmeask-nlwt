@@ -12,7 +12,6 @@ import { usePalette } from 'react-palette';
 import '../styles/room.scss';
 import { Question } from '../components/Question';
 import { useRoom } from '../hooks/useRoom';
-import { Link } from 'react-router-dom';
 
 type RoomParams = {
   id: string;
