@@ -15,82 +15,84 @@ import { Button } from '../components/Button';
 import '../styles/auth.scss';
 
 export function Home() {
-  const history = useHistory();
-  const { user, singInWithGoogle } = useAuth();
-  const [roomCode, setRoomCode] = useState('');
+	const history = useHistory();
+	const { user, singInWithGoogle } = useAuth();
+	const [roomCode, setRoomCode] = useState('');
 
-  async function handleCreateRoom() {
-    if (!user) {
-      await singInWithGoogle();
-    }
-    history.push('/rooms/new');
-    toast.success('Entrou com sucesso!');
-  }
+	async function handleCreateRoom() {
+		if (!user) {
+			await singInWithGoogle();
+		}
+		history.push('/rooms/new');
+		toast.success('Entrou com sucesso!');
+	}
 
-  async function handleJoinRoom(event: FormEvent) {
-    event.preventDefault();
+	async function handleJoinRoom(event: FormEvent) {
+		event.preventDefault();
 
-    if (roomCode.trim() === '') {
-      toast.error('Código de sala vazio!', {
-        style: { background: '#ff3333', color: '#f3f3f3' },
-      });
-      return;
-    }
+		if (roomCode.trim() === '') {
+			toast.error('Código de sala vazio!', {
+				style: { background: '#ff3333', color: '#f3f3f3' },
+			});
+			return;
+		}
 
-    const roomRef = await database.ref(`rooms/${roomCode}`).get();
+		const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
-    if (!roomRef.exists()) {
-      toast.error('Esta sala não existe!');
-      return;
-    }
+		if (!roomRef.exists()) {
+			toast.error('Esta sala não existe!');
+			return;
+		}
 
-    if (roomRef.val().endedAt) {
-      toast.error('Esta sala já foi encerrada!');
-      return;
-    }
+		if (roomRef.val().endedAt) {
+			toast.error('Esta sala já foi encerrada!');
+			return;
+		}
 
-    history.push(`rooms/${roomCode}`);
-  }
-  return (
-    <div id="page-auth">
-      <Toaster />
-      <aside>
-        <img src={illustrationImg} alt="Ilustração perguntas e respostas" />
-        <strong>Toda pergunta tem uma resposta.</strong>
-        <p>Crie salas de Q&amp;A ao vivo</p>
-        <span>
-          Feito com a
-          {' '}
-          <a
-            href="http://www.rocketseat.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Rocketseat
-          </a>
-          {' '}
-          🚀
-        </span>
-      </aside>
-      <main>
-        <div className="main-content">
-          <img src={logoImg} alt="Letmeask logo" />
-          <button className="create-room" onClick={handleCreateRoom} type="button">
-            <img src={googleIconImg} alt="Google icon" />
-            Crie sua sala com o google
-          </button>
-          <div className="separator">Ou entre em uma sala</div>
-          <form onSubmit={handleJoinRoom}>
-            <input
-              type="text"
-              placeholder="Digite o código da sala!"
-              onChange={(event) => setRoomCode(event.target.value)}
-              value={roomCode}
-            />
-            <Button type="submit">Entrar na sala</Button>
-          </form>
-        </div>
-      </main>
-    </div>
-  );
+		history.push(`rooms/${roomCode}`);
+	}
+	return (
+		<div id="page-auth">
+			<Toaster />
+			<aside>
+				<img src={illustrationImg} alt="Ilustração perguntas e respostas" />
+				<strong>Toda pergunta tem uma resposta.</strong>
+				<p>Crie salas de Q&amp;A ao vivo</p>
+				<span>
+					Feito com a{' '}
+					<a
+						href="http://www.rocketseat.com.br"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Rocketseat
+					</a>{' '}
+					🚀
+				</span>
+			</aside>
+			<main>
+				<div className="main-content">
+					<img src={logoImg} alt="Letmeask logo" />
+					<button
+						className="create-room"
+						onClick={handleCreateRoom}
+						type="button"
+					>
+						<img src={googleIconImg} alt="Google icon" />
+						Crie sua sala com o google
+					</button>
+					<div className="separator">Ou entre em uma sala</div>
+					<form onSubmit={handleJoinRoom}>
+						<input
+							type="text"
+							placeholder="Digite o código da sala!"
+							onChange={(event) => setRoomCode(event.target.value)}
+							value={roomCode}
+						/>
+						<Button type="submit">Entrar na sala</Button>
+					</form>
+				</div>
+			</main>
+		</div>
+	);
 }
