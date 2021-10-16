@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
   * {
@@ -10,7 +10,7 @@ export default createGlobalStyle`
 
   body {
     background-color: #f8f8f8;
-    color: #29292e
+    color: #29292e;
   }
 
   body, input, button, textarea {
@@ -20,4 +20,4 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
-`
+`;

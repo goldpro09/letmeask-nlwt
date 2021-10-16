@@ -1,5 +1,7 @@
+import React, {
+  createContext, ReactNode, useState, useEffect,
+} from 'react';
 import firebase from 'firebase/compat';
-import { createContext, ReactNode, useState, useEffect } from 'react';
 import { auth } from '../services/firebase';
 
 type User = {
@@ -21,52 +23,53 @@ type AuthContextProviderProps = {
 export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User>();
 
-  useEffect(()=>{
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if(user) {
-        const { displayName, photoURL, uid } = user;
-  
-        if(!displayName || !photoURL) {
-          throw new Error("Missing info from Google account!");
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((userA) => {
+      if (userA) {
+        const { displayName, photoURL, uid } = userA;
+
+        if (!displayName || !photoURL) {
+          throw new Error('Missing info from Google account!');
         }
-  
+
         setUser({
           id: uid,
           name: displayName,
-          avatar: photoURL
+          avatar: photoURL,
         });
       }
     });
 
-    return ()=>{
+    return () => {
       unsubscribe();
-    }
+    };
   }, []);
 
-  async function singInWithGoogle() {    
+  async function singInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
 
     const result = await auth.signInWithPopup(provider);
-    
-    if(result.user) {
+
+    if (result.user) {
       const { displayName, photoURL, uid } = result.user;
 
-      if(!displayName || !photoURL) {
-        throw new Error("Missing info from Google account!");
+      if (!displayName || !photoURL) {
+        throw new Error('Missing info from Google account!');
       }
 
       setUser({
         id: uid,
         name: displayName,
-        avatar: photoURL
+        avatar: photoURL,
       });
     }
-    
   }
-  
+
+  const { children } = props;
+
   return (
     <AuthContext.Provider value={{ user, singInWithGoogle }}>
-      {props.children}
+      {children}
     </AuthContext.Provider>
   );
 }
